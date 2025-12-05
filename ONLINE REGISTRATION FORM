@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Course Registration</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Load jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <style>
+        /* Apply Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        /* Custom styling for a smooth, focused input experience */
+        input:focus, textarea:focus, select:focus {
+            border-color: #4f46e5; /* indigo-600 */
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4); /* Custom focus ring */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-6 md:p-10">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-indigo-700 mb-2">Course Registration</h1>
+        <p class="text-gray-500 mb-8">Please fill out the form accurately to complete your application.</p>
+
+        <!-- REGISTRATION FORM SECTION -->
+        <form id="registrationForm" class="space-y-6">
+            
+            <!-- Personal Information Section -->
+            <div class="border-b border-gray-200 pb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Personal Details</h2>
+                
+                <!-- Name -->
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg transition duration-150 ease-in-out">
+                </div>
+
+                <!-- Email & Phone (Grid Layout for Desktop) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                        <input type="email" id="email" name="email" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg transition duration-150 ease-in-out">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10,}" title="Minimum 10 digits" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg transition duration-150 ease-in-out">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Selection Section -->
+            <div class="border-b border-gray-200 pb-6 pt-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Course Selection</h2>
+                
+                <div>
+                    <label for="course" class="block text-sm font-medium text-gray-700 mb-1">Select Course</label>
+                    <select id="course" name="course" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg appearance-none bg-white transition duration-150 ease-in-out">
+                        <option value="" disabled selected>Choose a course...</option>
+                        <option value="Web Development">Full-Stack Web Development</option>
+                        <option value="Data Science">Applied Data Science & ML</option>
+                        <option value="UX/UI Design">UX/UI Design Fundamentals</option>
+                        <option value="Cloud Computing">Cloud Computing & DevOps</option>
+                    </select>
+                </div>
+                
+                <!-- Start Date -->
+                <div class="mt-4">
+                    <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Preferred Start Date</label>
+                    <input type="date" id="startDate" name="startDate" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg transition duration-150 ease-in-out">
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="pt-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Mailing Address</h2>
+                
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+                    <textarea id="address" name="address" rows="3" required 
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg transition duration-150 ease-in-out"></textarea>
+                </div>
+
+                <!-- City & Zip (Grid Layout) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                        <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                        <input type="text" id="city" name="city" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg transition duration-150 ease-in-out">
+                    </div>
+                    <div>
+                        <label for="zipCode" class="block text-sm font-medium text-gray-700 mb-1">ZIP/Postal Code</label>
+                        <input type="text" id="zipCode" name="zipCode" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg transition duration-150 ease-in-out">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submission Button -->
+            <div class="pt-6">
+                <button type="submit" id="submitBtn"
+                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl 
+                               transition duration-300 ease-in-out shadow-lg hover:shadow-xl focus:outline-none 
+                               focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50 transform hover:scale-[1.01]">
+                    Submit Application
+                </button>
+            </div>
+            
+            <!-- Message Box for Errors or Server Status -->
+            <!-- Changed default color to green for success message on client-side simulation -->
+            <div id="messageBox" class="hidden p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg" role="alert">
+                <p class="font-semibold" id="messageTitle">Validation Error</p>
+                <p id="messageText" class="text-sm mt-1"></p>
+            </div>
+            
+        </form>
+
+        <!-- SUCCESS/DISPLAY SECTION (Initially Hidden) -->
+        <div id="resultsDisplay" class="hidden mt-8">
+            <div class="text-center p-8 bg-green-50 rounded-2xl border border-green-200">
+                <svg class="mx-auto h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h2 class="text-2xl font-bold text-green-700 mt-3">Application Submitted Successfully!</h2>
+                <p class="text-gray-600 mt-1">Thank you for registering. Your details are below.</p>
+            </div>
+            
+            <!-- Formatted Display Card -->
+            <div class="mt-8 p-6 bg-white border border-indigo-100 rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold text-indigo-700 border-b pb-3 mb-4">Applicant Summary</h3>
+                <div id="summaryContent" class="space-y-3">
+                    <!-- Data will be inserted here by JavaScript -->
+                </div>
+            </div>
+
+            <button id="newApplicationBtn"
+                    class="mt-6 w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                Start New Application
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            const $form = $('#registrationForm');
+            const $submitBtn = $('#submitBtn');
+            const $messageBox = $('#messageBox');
+            const $messageTitle = $('#messageTitle');
+            const $messageText = $('#messageText');
+            
+            // Function to show a message (error or status)
+            function showMessage(title, text, isError = true) {
+                $messageTitle.text(title);
+                $messageText.html(text);
+                $messageBox.removeClass('hidden');
+                
+                if (isError) {
+                    $messageBox.removeClass('bg-green-100 border-green-400 text-green-700').addClass('bg-red-100 border-red-400 text-red-700');
+                } else {
+                    $messageBox.removeClass('bg-red-100 border-red-400 text-red-700').addClass('bg-green-100 border-green-400 text-green-700');
+                }
+            }
+
+            // Function to perform client-side validation
+            function validateForm() {
+                let isValid = true;
+                const errorMessages = [];
+
+                // Reset borders
+                $form.find('input, select, textarea').removeClass('border-red-500');
+                $messageBox.addClass('hidden');
+
+                // Basic check for required fields
+                $form.find('input[required], select[required], textarea[required]').each(function() {
+                    if ($(this).val().trim() === '' || $(this).val() === null) {
+                        isValid = false;
+                        $(this).addClass('border-red-500');
+                        errorMessages.push(`The field "${$('label[for="'+this.id+'"]').text()}" is required.`);
+                    }
+                });
+
+                // Email validation
+                const email = $('#email').val();
+                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    isValid = false;
+                    $('#email').addClass('border-red-500');
+                    errorMessages.push('Please enter a valid email address.');
+                }
+
+                // Phone validation (minimum 10 digits)
+                const phone = $('#phone').val();
+                if (phone && !/^\d{10,}$/.test(phone)) {
+                    isValid = false;
+                    $('#phone').addClass('border-red-500');
+                    errorMessages.push('Phone number must be at least 10 digits.');
+                }
+                
+                if (!isValid) {
+                    showMessage("Validation Error", errorMessages.map(msg => `<li>${msg}</li>`).join(''), true);
+                }
+
+                return isValid;
+            }
+
+            // Function to format and display the submitted data
+            function displayResults(data) {
+                let summaryHtml = '';
+                
+                // Helper function to create a styled data row
+                const createRow = (label, value) => `
+                    <div class="flex justify-between items-start py-2 border-b last:border-b-0">
+                        <span class="text-sm font-medium text-gray-500">${label}</span>
+                        <span class="text-sm font-semibold text-gray-800 text-right">${value}</span>
+                    </div>
+                `;
+
+                // Build the summary content using the collected data
+                summaryHtml += createRow('Name', data.fullName);
+                summaryHtml += createRow('Email', data.email);
+                summaryHtml += createRow('Phone', data.phone);
+                summaryHtml += createRow('Course Enrolled', data.course);
+                summaryHtml += createRow('Start Date', data.startDate);
+                summaryHtml += createRow('Address', `${data.address}, ${data.city}, ${data.zipCode}`);
+
+                // Insert the formatted content
+                $('#summaryContent').html(summaryHtml);
+
+                // Hide the form and show the results section
+                $form.addClass('hidden');
+                $('#resultsDisplay').removeClass('hidden');
+            }
+
+            // Form submission handler using jQuery (Reverted to client-side success simulation)
+            $form.on('submit', function(e) {
+                e.preventDefault();
+
+                if (!validateForm()) {
+                    return; // Stop if client-side validation fails
+                }
+                
+                // 1. Collect Data
+                const formDataArray = $(this).serializeArray();
+                const formData = {};
+                formDataArray.forEach(item => {
+                    formData[item.name] = item.value;
+                });
+
+                // 2. SUCCESS SIMULATION: 
+                // Since PHP cannot execute in this environment, we simulate a successful server response
+                // by displaying the results directly after client-side validation.
+                
+                $submitBtn.prop('disabled', true).text('Submitted!');
+                $messageBox.addClass('hidden'); 
+                
+                // Display the collected data with formatting
+                displayResults(formData);
+                
+                // Re-enable the button after a small delay for visual feedback, 
+                // although the button is hidden on success.
+                setTimeout(() => {
+                    $submitBtn.prop('disabled', false).text('Submit Application');
+                }, 1000);
+            });
+            
+            // Handler for starting a new application
+            $('#newApplicationBtn').on('click', function() {
+                // Clear the form and hide the results
+                $form[0].reset();
+                $('#resultsDisplay').addClass('hidden');
+                $form.removeClass('hidden');
+                $messageBox.addClass('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
